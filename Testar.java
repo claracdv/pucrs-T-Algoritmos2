@@ -1,5 +1,5 @@
 import java.io.IOException;
-import java.net.InterfaceAddress;
+//import java.net.InterfaceAddress;
 import java.io.FileReader;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -9,8 +9,6 @@ import java.io.BufferedReader;
 public class Testar {
   protected static ArrayList<Intervalo> arr = new ArrayList<Intervalo>();
 
-  Intervalo filtraIp = new Intervalo(min, max);
-
   public static void leitura(ArrayList<Intervalo> arr) {
         
     System.out.println(new Timestamp(System.currentTimeMillis()));
@@ -19,7 +17,7 @@ public class Testar {
     try {
         // File file = new File("case_0.txt");
         // Scanner myReader = new Scanner(file); //Buffered?
-        BufferedReader br = new BufferedReader(new FileReader("caso12.txt"));
+        BufferedReader br = new BufferedReader(new FileReader("test.txt"));
         String leitura;
         while ((leitura = br.readLine()) != null) {
             String[] valores = leitura.split("-");            
@@ -48,23 +46,24 @@ public class Testar {
 
   public static void main(String args[]){
     leitura(arr);
-    
+    quicksort(arr);
+    System.out.println(arr);
   }
 
-  private List<Integer> quicksort(List<Integer> input){
+  public static List<Intervalo> quicksort(List<Intervalo> input){
 		
 		if(input.size() <= 1){
 			return input;
 		}
 		
 		int middle = (int) Math.ceil((double)input.size() / 2);
-		int pivot = input.get(middle);
+		int pivot = input.get(middle).val1;
 
-		List<Integer> less = new ArrayList<Integer>();
-		List<Integer> greater = new ArrayList<Integer>();
+		List<Intervalo> less = new ArrayList<Intervalo>();
+		List<Intervalo> greater = new ArrayList<Intervalo>();
 		
-		for (int i = 0; i < input.size(); i++) {
-			if(input.get(i) <= pivot){
+		for (int i = 0; i < input.size()-1; i++) {
+			if(input.get(i).val1 <= pivot){
 				if(i == middle){
 					continue;
 				}
@@ -75,7 +74,7 @@ public class Testar {
 			}
 		}
 		
-		return concatenate(quicksort(less), pivot, quicksort(greater));
+		return concatenate(less, input.get(middle), greater);
 	}
 	
 	/**
@@ -86,9 +85,9 @@ public class Testar {
 	 * @param greater integer ArrayList with values greater than pivot.
 	 * @return the integer ArrayList after join.
 	 */
-	private List<Integer> concatenate(List<Integer> less, int pivot, List<Integer> greater){
+	public static List<Intervalo> concatenate(List<Intervalo> less, Intervalo pivot, List<Intervalo> greater){
 		
-		List<Integer> list = new ArrayList<Integer>();
+		List<Intervalo> list = new ArrayList<Intervalo>();
 		
 		for (int i = 0; i < less.size(); i++) {
 			list.add(less.get(i));
@@ -103,8 +102,8 @@ public class Testar {
 		return list;
 	}
 
-  public ArrayList<Intervalo> listinha(ArrayList<Intervalo> arrayList){
+  //public ArrayList<Intervalo> listinha(ArrayList<Intervalo> arrayList){
     
-  }
+  //}
 
 }
